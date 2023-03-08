@@ -3,7 +3,7 @@ import os
 import pandas as pd
 import numpy as np #numpy
 import scipy as scipy #scipy
-#import services.z_score_food_drop as z_score_food_drop
+import services.create_trendlines as create_trendlines
 #import services.save_plot_food_drop as save_plot
 
 #Interval for analysis around food drop
@@ -23,7 +23,7 @@ for folder in glob.iglob(('/home/jordan/Desktop/dat_photometry_data_to_analyze/*
                 rawPhotometry.columns = rawPhotometry.columns.str.lower()
 
                 #combine time column and auto, npy,  d0 columns to create master pandas DataFrame
-                master = pd.concat([autoFluorescence['time'], autoFluorescence['d0'], rawPhotometry['d0']], axis=1, keys = ['time', file[file.rfind("/"):] + "_405ch.csv" , file[file.rfind("/"):], 'shock'])
+                master = pd.concat([autoFluorescence['time'], autoFluorescence['d0'], rawPhotometry['d0']], axis=1, keys = ['time', "auto" , "data", 'shock'])
                 
                 #create food/object drop onset
                 foodDropTime = int(file[file.rfind('_')+1:-4])
@@ -34,7 +34,15 @@ for folder in glob.iglob(('/home/jordan/Desktop/dat_photometry_data_to_analyze/*
 
                 #create master_input pandas DataFrame
                 master_input = master[begin_input:last_row]
-                print(master_input)
+                
+                master_trendlines = create_trendlines.calculate_trend_lines(master_input, begin_input, foodDropTime)
+
+                #determine trendline equeation
+                trendline_equation_auto = create_trendlines.determine_trendline_equation(master_trendlines, "auto")
+
+                trendline_equation_data = create_trendlines.determine_trendline_equation(master_trendlines, "data")
+                print(trendline_equation_auto)
+                print(trendline_equation_data)
 
                 
             
