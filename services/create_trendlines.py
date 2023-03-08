@@ -19,4 +19,4 @@ def determine_trendline_equation(master_trendlines, data):
         (a, b) = polyfit(master_trendlines.x, master_trendlines.auto, 1)
     else:
         (a, b) = polyfit(master_trendlines.x, master_trendlines.data, 1)
-    return 'y = ' + str(round(a, 5)) + 'x + ' + str(round(b, 5))
+    return 'y = ' + str(round(a, 5)) + 'x + ' + str(round(b, 5)), a, b
