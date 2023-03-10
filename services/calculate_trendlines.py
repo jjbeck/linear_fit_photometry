@@ -9,6 +9,7 @@ def create_master_calculations(master_calculations):
     x_master_calculations = pd.DataFrame({'x': x_range_master_calculations})
     #add x_master_calculations to master_calculations 
     master_calculations = pd.concat([x_master_calculations, master_calculations], axis = 1, join = 'inner') 
+   
 
     return x_range_master_calculations, x_master_calculations, master_calculations
 
